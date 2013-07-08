@@ -58,46 +58,6 @@ define('JSON_AVAILABLE', function_exists('json_encode'));
 define('IS_CLI', !isset($_SERVER['REQUEST_METHOD']));
 
 // }}}
-// {{{ Attempts to JAR the PICKLES - Har Har.
-
-function readFileContents($directory)
-{
-	$contents = '';
-	$files    = scandir($directory);
-
-	foreach ($files as $file)
-	{
-		if (strpos($file, '.') !== 0)
-		{
-			$file = $directory . '/' . $file;
-
-			if (is_dir($file))
-			{
-				$contents .= readFileContents($file);
-			}
-			else
-			{
-				$contents .= file_get_contents($file);
-			}
-		}
-	}
-
-	return $contents;
-}
-
-$jar_file = PICKLES_PATH . 'jar.php';
-
-if (is_writable(PICKLES_PATH) && $pickling)
-{
-	file_put_contents(dirname(__FILE__) . '/jar.php', str_replace("\n?" . ">\n<" . "?php\n", '', readFileContents(PICKLES_CLASS_PATH)));
-}
-
-if (file_exists($jar_file) && !$pickling)
-{
-	require $jar_file;
-}
-
-// }}}
 // {{{ Defaults some important configuration options
 
 // Turns on error before the config is loaded to help catch parse errors

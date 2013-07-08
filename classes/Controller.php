@@ -102,15 +102,19 @@ class Controller extends Object
 
 		$module_exists = (isset($module_filename) && $module_filename != null && file_exists($module_filename));
 
+		// No local module? Tries to load a PICKLES module if enabled
 		if (!$module_exists)
 		{
 			list($module_class, $module_filename, $template_basename, $css_class, $js_basename) = $this->prepareVariables($request, PICKLES_PATH . 'modules/');
 
-			$module_exists = (isset($module_filename) && $module_filename != null && file_exists($module_filename));
-		}
+			list($module_base, $module_sub) = explode('_', $module_class, 2);
 
-		var_dump($module_exists, $module_filename);
-		exit;
+			if (isset($this->config->pickles['modules'][$module_base])
+				&& $this->config->pickles['modules'][$module_base])
+			{
+				$module_exists = (isset($module_filename) && $module_filename != null && file_exists($module_filename));
+			}
+		}
 
 		unset($request);
 
