@@ -1262,9 +1262,20 @@ class Controller extends Object
 		// Loads the module's information
 		list($module_class, $module_filename, $template_basename, $css_class, $js_basename) = $this->prepareVariables($request);
 
-		unset($request);
-
 		$module_exists = (isset($module_filename) && $module_filename != null && file_exists($module_filename));
+
+		if (!$module_exists)
+		{
+			list($module_class, $module_filename, $template_basename, $css_class, $js_basename) = $this->prepareVariables($request, PICKLES_PATH . 'modules/');
+
+			$module_exists = (isset($module_filename) && $module_filename != null && file_exists($module_filename));
+		}
+
+
+		var_dump($module_exists, $module_filename);
+		exit;
+
+		unset($request);
 
 		// Instantiates an instance of the module
 		if ($module_exists)
@@ -1622,9 +1633,10 @@ class Controller extends Object
 	 * Controller needs to load the page.
 	 *
 	 * @param  string $basename the requested page
+	 * @param  string $path the path to use for the requested module
 	 * @return array the resulting variables
 	 */
-	public function prepareVariables($basename)
+	public function prepareVariables($basename, $path = SITE_MODULE_PATH)
 	{
 		if (strpos($basename, '.') !== false)
 		{
@@ -1634,7 +1646,7 @@ class Controller extends Object
 
 		// Sets up all of our variables
 		$module_class      = strtr($basename, '/', '_');
-		$module_filename   = SITE_MODULE_PATH . $basename . '.php';
+		$module_filename   = $path . $basename . '.php';
 		$template_basename = $basename;
 		$css_class         = $module_class;
 		$js_basename       = $basename;
