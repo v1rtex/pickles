@@ -31,8 +31,10 @@ $pickling = (php_uname('s') == 'Darwin' ? true : false);
 define('PICKLES_START_TIME', microtime(true));
 
 // Establishes our PICKLES paths
-define('PICKLES_PATH',       dirname(__FILE__) . '/');
-define('PICKLES_CLASS_PATH', PICKLES_PATH . 'classes/');
+define('PICKLES_PATH',          dirname(__FILE__) . '/');
+define('PICKLES_CLASS_PATH',    PICKLES_PATH . 'classes/');
+define('PICKLES_MODULE_PATH',   PICKLES_PATH . 'modules/');
+define('PICKLES_TEMPLATE_PATH', PICKLES_PATH . 'templates/');
 
 // Establishes our site paths
 define('SITE_PATH', getcwd() . '/../');

@@ -100,19 +100,22 @@ class Controller extends Object
 		// Loads the module's information
 		list($module_class, $module_filename, $template_basename, $css_class, $js_basename) = $this->prepareVariables($request);
 
-		$module_exists = (isset($module_filename) && $module_filename != null && file_exists($module_filename));
+		$module_exists  = (isset($module_filename) && $module_filename != null && file_exists($module_filename));
+		$pickles_module = false;
 
 		// No local module? Tries to load a PICKLES module if enabled
 		if (!$module_exists)
 		{
-			list($module_class, $module_filename, $template_basename, $css_class, $js_basename) = $this->prepareVariables($request, PICKLES_PATH . 'modules/');
+			list($module_class, $module_filename, $template_basename, $css_class, $js_basename) = $this->prepareVariables($request, PICKLES_MODULE_PATH);
 
 			list($module_base, $module_sub) = explode('_', $module_class, 2);
 
 			if (isset($this->config->pickles['modules'][$module_base])
 				&& $this->config->pickles['modules'][$module_base])
 			{
-				$module_exists = (isset($module_filename) && $module_filename != null && file_exists($module_filename));
+				$module_exists  = (isset($module_filename) && $module_filename != null && file_exists($module_filename));
+				$module_class   = 'PICKLES\modules\\' . $module_class;
+				$pickles_module = true;
 			}
 		}
 
@@ -282,7 +285,7 @@ class Controller extends Object
 		$display       = new $display_class();
 
 		// Assigns the template / template variables
-		$display->setTemplateVariables($module->template, $template_basename, $css_class, $js_basename, $module->fluid);
+		$display->setTemplateVariables($module->template, $template_basename, $css_class, $js_basename, $module->fluid, $pickles_module);
 
 		// Checks the templates
 		$template_exists = $display->templateExists();

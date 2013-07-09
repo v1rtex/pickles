@@ -9,7 +9,7 @@
  * Redistribution of these files must retain the above copyright notice.
  *
  * @author    Josh Sherman <pickles@joshtronic.com>
- * @copyright Copyright 2007-2012, Josh Sherman
+ * @copyright Copyright 2007-2013, Josh Sherman
  * @license   http://www.opensource.org/licenses/mit-license.html
  * @package   PICKLES
  * @link      https://github.com/joshtronic/pickles
@@ -114,8 +114,9 @@ abstract class Display_Common extends Object
 	 *
 	 * @param string $template template file's basename
 	 * @param string $type template file's type (either parent or child)
+	 * @param boolean $pickles_module whether or not the module is internal
 	 */
-	private function setTemplate($template, $type)
+	private function setTemplate($template, $type, $pickles_module)
 	{
 		if ($template != null)
 		{
@@ -126,6 +127,17 @@ abstract class Display_Common extends Object
 			if (file_exists($template_file))
 			{
 				$this->$template_name = $template_file;
+			}
+			elseif ($type == 'child' && $pickles_module)
+			{
+				$template_name = $type . '_template';
+				$template_path = PICKLES_TEMPLATE_PATH;
+				$template_file = $template_path . $template . ($this->extension != false ? '.' . $this->extension : '');
+
+				if (file_exists($template_file))
+				{
+					$this->$template_name = $template_file;
+				}
 			}
 		}
 	}
@@ -140,11 +152,12 @@ abstract class Display_Common extends Object
 	 * @param string $css_class name of the CSS class for the module
 	 * @param string $js_basename basename for the javascript file for the module
 	 * @param boolean $fluid whether or not use a fluid layout
+	 * @param boolean $pickles_module whether or not the module is internal
 	 */
-	public function setTemplateVariables($parent_template, $child_template, $css_class, $js_basename, $fluid)
+	public function setTemplateVariables($parent_template, $child_template, $css_class, $js_basename, $fluid, $pickles_module)
 	{
-		$this->setTemplate($parent_template, 'parent');
-		$this->setTemplate($child_template,  'child');
+		$this->setTemplate($parent_template, 'parent', $pickles_module);
+		$this->setTemplate($child_template,  'child',  $pickles_module);
 
 		$this->css_class   = $css_class;
 		$this->js_basename = $js_basename;
