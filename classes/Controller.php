@@ -114,7 +114,7 @@ class Controller extends Object
 				&& $this->config->pickles['modules'][$module_base])
 			{
 				$module_exists  = (isset($module_filename) && $module_filename != null && file_exists($module_filename));
-				$module_class   = 'PICKLES\modules\\' . $module_class;
+				$module_class   = 'PICKLES\Modules\\' . $module_class;
 				$pickles_module = true;
 			}
 		}

@@ -1,6 +1,6 @@
 <?php
 
-namespace PICKLES\modules;
+namespace PICKLES\Modules;
 
 class admin_login extends \Module
 {
