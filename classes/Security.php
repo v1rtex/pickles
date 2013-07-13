@@ -81,6 +81,52 @@ class Security
 	}
 
 	/**
+	 * Blowfish
+	 *
+	 * Generates a Blowfish hash with a default cost of 2^11 (2048 rounds) and
+	 * only using $2y$ for security's sake. This function only works on version
+	 * 5.3.7 and above.
+	 *
+	 * @param string $string the string to generate a hash for
+	 * @param string $salt 22-character alphanumeric string to salt with
+	 * @param integer $cost integer between 4 and 31 to calculate cost
+	 * @return string 60 character Blowfish hash
+	 */
+	public static function blowfish($string, $salt = null, $cost = 11)
+	{
+		if (!$salt)
+		{
+			$salt = String::random(22);
+		}
+
+		if ($cost < 10)
+		{
+			$cost = '0' . $cost;
+		}
+
+		if (!CRYPT_BLOWFISH)
+		{
+			throw new Exception('Blowfish is not available on this system.');
+		}
+		elseif (version_compare(phpversion(), '5.3.7', '<'))
+		{
+			throw new Exception('This function requires PHP 5.3.7 or above.');
+		}
+		elseif (!preg_match('/[a-z0-9]{22}/i', $salt))
+		{
+			throw new Exception('The salt value may only contain alphanumerics and must be exactly 22 characters.');
+		}
+		elseif ($cost < 4 || $cost > 31)
+		{
+			throw new Exception('The cost must be between 4 and 31.');
+		}
+		else
+		{
+			return crypt($string, '$2y$' . $cost . '$' . $salt . '$');
+		}
+	}
+
+	/**
 	 * SHA-256
 	 *
 	 * Generates an SHA-256 hash from the provided string.

@@ -6,7 +6,15 @@ class admin extends \Module
 {
 	public function __default()
 	{
-		\Browser::redirect('/admin/login');
+		// Checks if we're logged in or not
+		if (!isset($_SESSION['__pickles']['admin']))
+		{
+			\Browser::redirect('/admin/login');
+		}
+		else
+		{
+			// TODO Pull stuff for the dashboard
+		}
 	}
 }
 
