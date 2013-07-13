@@ -108,7 +108,15 @@ class Controller extends Object
 		{
 			list($module_class, $module_filename, $template_basename, $css_class, $js_basename) = $this->prepareVariables($request, PICKLES_MODULE_PATH);
 
-			list($module_base, $module_sub) = explode('_', $module_class, 2);
+			if (strstr($module_class, '_'))
+			{
+				list($module_base, $module_sub) = explode('_', $module_class, 2);
+			}
+			else
+			{
+				$module_base = $module_class;
+				$module_sub  = null;
+			}
 
 			if (isset($this->config->pickles['modules'][$module_base])
 				&& $this->config->pickles['modules'][$module_base])
