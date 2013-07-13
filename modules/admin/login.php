@@ -2,7 +2,7 @@
 
 namespace PICKLES\Modules;
 
-class admin_login extends \Module
+class admin_login extends admin
 {
 	public function __default()
 	{

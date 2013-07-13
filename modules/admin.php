@@ -4,6 +4,8 @@ namespace PICKLES\modules;
 
 class admin extends \Module
 {
+	protected $template = 'admin';
+
 	public function __default()
 	{
 		// Checks if we're logged in or not
@@ -14,7 +16,6 @@ class admin extends \Module
 		else
 		{
 			// TODO Pull stuff for the dashboard
-			var_dump($_SESSION);
 		}
 	}
 }

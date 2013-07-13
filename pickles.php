@@ -155,11 +155,12 @@ function __autoload($class)
 
 	// Path as the key, boolean value is whether ot not to convert back to hyphenated
 	$paths = array(
-		PICKLES_CLASS_PATH => false,
-		SITE_CLASS_PATH    => false,
-		SITE_MODEL_PATH    => false,
-		SITE_MODULE_PATH   => true,
-		PICKLES_MODEL_PATH => false,
+		PICKLES_CLASS_PATH  => false,
+		SITE_CLASS_PATH     => false,
+		SITE_MODEL_PATH     => false,
+		SITE_MODULE_PATH    => true,
+		PICKLES_MODEL_PATH  => false,
+		PICKLES_MODULE_PATH => true,
 	);
 
 	foreach ($paths as $path => $hyphenated)
