@@ -7,4 +7,4 @@ CREATE TABLE `administrators` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `administrators` (`username`, `password`)
-VALUES ('administrator', '$2a$11$0msCb2DCeQKYcW7MIxAN6upVCX1M3Lt7zU5lTv2C0..S.Ac447omO');
+VALUES ('administrator', '$2y$11$0msCb2DCeQKYcW7MIxAN6upVCX1M3Lt7zU5lTv2C0..S.Ac447omO');

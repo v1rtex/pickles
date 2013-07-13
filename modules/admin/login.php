@@ -28,8 +28,18 @@ class admin_login_authenticate extends admin_login
 			if ($admin->count() == 1)
 			{
 				// Compares the hash
-				var_dump(explode('$', $admin->record['password']));
-				exit;
+				$hash = explode('$', $admin->record['password']);
+
+				if (count($hash) == 4)
+				{
+					$salt = substr($hash[3], 0, 22);
+				}
+
+				if (\Security::blowfish($_POST['password'], $salt) == $admin->record['password'])
+				{
+					$_SESSION['__pickles']['admin'] = $admin->record['id'];
+					\Browser::redirect('/admin');
+				}
 			}
 
 			$_SESSION['__notification'] = 'Invalid login credentials.';

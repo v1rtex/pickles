@@ -14,6 +14,7 @@ class admin extends \Module
 		else
 		{
 			// TODO Pull stuff for the dashboard
+			var_dump($_SESSION);
 		}
 	}
 }

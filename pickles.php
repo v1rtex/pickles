@@ -33,6 +33,7 @@ define('PICKLES_START_TIME', microtime(true));
 // Establishes our PICKLES paths
 define('PICKLES_PATH',          dirname(__FILE__) . '/');
 define('PICKLES_CLASS_PATH',    PICKLES_PATH . 'classes/');
+define('PICKLES_MODEL_PATH',    PICKLES_PATH . 'models/');
 define('PICKLES_MODULE_PATH',   PICKLES_PATH . 'modules/');
 define('PICKLES_TEMPLATE_PATH', PICKLES_PATH . 'templates/');
 
@@ -143,7 +144,14 @@ function __autoload($class)
 {
 	$loaded = false;
 
-	$filename = preg_replace('/_/', '/', $class) . '.php';
+	$original_filename = preg_replace('/_/', '/', $class) . '.php';
+
+	if (strstr($original_filename, '\\'))
+	{
+		$original_filename = explode('\\', $original_filename);
+		end($original_filename);
+		$original_filename = current($original_filename);
+	}
 
 	// Path as the key, boolean value is whether ot not to convert back to hyphenated
 	$paths = array(
@@ -151,6 +159,7 @@ function __autoload($class)
 		SITE_CLASS_PATH    => false,
 		SITE_MODEL_PATH    => false,
 		SITE_MODULE_PATH   => true,
+		PICKLES_MODEL_PATH => false,
 	);
 
 	foreach ($paths as $path => $hyphenated)
@@ -158,7 +167,11 @@ function __autoload($class)
 		// Converts the filename back to hypenated
 		if ($hyphenated == true)
 		{
-			$filename = strtolower(preg_replace('/([A-Z]{1})/', '-$1', $filename));;
+			$filename = strtolower(preg_replace('/([A-Z]{1})/', '-$1', $original_filename));;
+		}
+		else
+		{
+			$filename = $original_filename;
 		}
 
 		if (file_exists($path . $filename))
