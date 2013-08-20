@@ -9,14 +9,23 @@ class admin extends \Module
 	public function __default()
 	{
 		// Checks if we're logged in or not
-		if (!isset($_SESSION['__pickles']['admin']))
+		if (Security::hasLevel(SECURITY_LEVEL_USER))
 		{
-			\Browser::redirect('/admin/login');
+			if (Security::hasLevel(SECURITY_LEVEL_ADMIN))
+			{
+				$uri = '/admin/dashboard';
+			}
+			else
+			{
+				$uri = '/user/dashboard';
+			}
 		}
 		else
 		{
-			// TODO Pull stuff for the dashboard
+			$uri = '/user/login';
 		}
+
+		\Browser::redirect($uri);
 	}
 }
 
