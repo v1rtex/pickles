@@ -82,22 +82,11 @@ class Display_PHP extends Display_Common
 			// Loads the template
 			if ($this->parent_template != null)
 			{
-				if ($this->child_template == null)
-				{
-					$__template = $this->parent_template;
-				}
-				else
-				{
-					$__template = $this->child_template;
-				}
-
 				require_once $this->parent_template;
 			}
 			elseif ($this->child_template != null)
 			{
-				$__template = $this->child_template;
-
-				require_once $__template;
+				require_once $this->child_template;
 			}
 
 			// Grabs the buffer contents and clears it out
