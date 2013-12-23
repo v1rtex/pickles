@@ -208,6 +208,8 @@ class Module extends Object
 	{
 		parent::__construct();
 
+		// @todo Should probably disable these if Cache or DB aren't in use.
+		//       Maybe can be part of the Redis inclusion into the core.
 		$this->cache = Cache::getInstance();
 		$this->db    = Database::getInstance();
 
